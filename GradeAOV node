@@ -1,0 +1,205 @@
+set cut_paste_input [stack 0]
+version 13.0 v2
+push $cut_paste_input
+Group {
+ name GradeAOV
+ label "\[value in]\n\[python \{\"soloed\" if nuke.thisNode()\['solo'].value() else \"\"\}] \[python \{\"muted\" if nuke.thisNode()\['mute'].value() else \"\"\}]\n"
+ selected true
+ xpos 747
+ ypos -24
+ addUserKnob {20 gradeAov l GradeAOV}
+ addUserKnob {41 in l AOV T Shuffle2.in}
+ addUserKnob {6 gradechannel l "Grade Channel" -STARTLINE}
+ gradechannel true
+ addUserKnob {6 solo +STARTLINE}
+ addUserKnob {6 mute -STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {41 exposure l Exposure T Exposure1.red}
+ addUserKnob {26 ""}
+ addUserKnob {41 blackpoint T Grade5.blackpoint}
+ addUserKnob {41 whitepoint T Grade5.whitepoint}
+ addUserKnob {41 black l lift T Grade5.black}
+ addUserKnob {41 white l gain T Grade5.white}
+ addUserKnob {41 multiply T Grade5.multiply}
+ addUserKnob {41 add l offset T Grade5.add}
+ addUserKnob {41 gamma T Grade5.gamma}
+ addUserKnob {26 ""}
+ addUserKnob {41 saturation T Saturation1.saturation}
+ addUserKnob {26 ""}
+ addUserKnob {41 mix T Merge1.mix}
+ addUserKnob {26 text_1 l "" +STARTLINE T "‎ "}
+ addUserKnob {26 text l "" +STARTLINE T "<span style='color:#666'><b>GradeAOV v1.0</b></span> <a style=\"color:#666;text-decoration: none;\">- by Eknath Kambagiri</a>"}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 912
+  ypos 95
+ }
+ Dot {
+  name Dot1
+  xpos 946
+  ypos 168
+ }
+set N6a637c00 [stack 0]
+ Dot {
+  name Dot11
+  xpos 795
+  ypos 168
+ }
+ Shuffle {
+  in none
+  in2 alpha
+  alpha red2
+  name Shuffle2
+  xpos 761
+  ypos 235
+ }
+set N6a637400 [stack 0]
+push $N6a637c00
+ Merge2 {
+  inputs 2
+  operation from
+  bbox B
+  name Merge10
+  xpos 912
+  ypos 235
+ }
+set N6a637000 [stack 0]
+ Dot {
+  name Dot6
+  xpos 1065
+  ypos 238
+ }
+ Dot {
+  name Dot4
+  xpos 1065
+  ypos 693
+ }
+ Input {
+  inputs 0
+  name mask
+  xpos 520
+  ypos 97
+  number 1
+ }
+ Dot {
+  name Dot10
+  xpos 554
+  ypos 305
+ }
+set N6a636000 [stack 0]
+ Dot {
+  name Dot9
+  xpos 554
+  ypos 355
+ }
+set N6a635c00 [stack 0]
+ Dot {
+  name Dot8
+  xpos 554
+  ypos 400
+ }
+push $N6a635c00
+push $N6a636000
+push $N6a637400
+ EXPTool {
+  inputs 1+1
+  mode Stops
+  name Exposure1
+  xpos 761
+  ypos 302
+ }
+ Grade {
+  inputs 1+1
+  name Grade5
+  xpos 761
+  ypos 352
+ }
+ Saturation {
+  inputs 1+1
+  name Saturation1
+  xpos 761
+  ypos 397
+ }
+push $N6a637400
+ Dot {
+  name Dot7
+  xpos 669
+  ypos 238
+ }
+ Dot {
+  name Dot5
+  xpos 669
+  ypos 463
+ }
+ Merge2 {
+  inputs 2
+  operation copy
+  bbox B
+  name Merge1
+  xpos 761
+  ypos 460
+ }
+ Dot {
+  name Dot12
+  xpos 795
+  ypos 508
+ }
+set N6a5ef800 [stack 0]
+ Dot {
+  name Dot2
+  xpos 795
+  ypos 569
+ }
+set N6a5ef400 [stack 0]
+ Dot {
+  name Dot3
+  xpos 795
+  ypos 636
+ }
+push $N6a5ef400
+push $N6a5ef800
+push $N6a637000
+ Merge2 {
+  inputs 2
+  operation plus
+  bbox B
+  name Merge11
+  xpos 912
+  ypos 505
+ }
+ ShuffleCopy {
+  inputs 2
+  in rgb
+  red red
+  green green
+  blue blue
+  alpha black
+  out {{{Shuffle2.in}}}
+  out2 rgba
+  name ShuffleCopy
+  xpos 912
+  ypos 566
+  disable {{!(parent.gradechannel)}}
+ }
+ Switch {
+  inputs 2
+  which {{(parent.solo)}}
+  name Switch1
+  xpos 912
+  ypos 633
+ }
+ Switch {
+  inputs 2
+  which {{(parent.mute)}}
+  name Switch
+  xpos 912
+  ypos 690
+ }
+ Output {
+  name Output1
+  xpos 912
+  ypos 770
+ }
+end_group
